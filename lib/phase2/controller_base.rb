@@ -18,7 +18,7 @@ module Phase2
     def redirect_to(url)
       raise 'already rendered response' if already_built_response?
       res.status = 302
-      res.header['Location'] = url
+      res.header['location'] = url
       @already_built_response = true
     end
 
