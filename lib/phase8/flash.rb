@@ -7,8 +7,8 @@ module Phase8
     attr_reader :now
 
     def initialize(req)
-      if i = req.cookies.index { |cookie| cookie.name == FLASH_COOKIE }
-        @now = JSON.parse(req.cookies[i].value)
+      if cookie = req.cookies.find { |cookie| cookie.name == FLASH_COOKIE }
+        @now = JSON.parse(cookies.value)
       else
         @now = {}
       end
@@ -32,8 +32,8 @@ module Phase8
 
     private
     def next_flash
-      p @fresh_keys
-      p now.select { |k, v| @fresh_keys.include?(k) }
+      @fresh_keys
+      now.select { |k, v| @fresh_keys.include?(k) }
     end
   end
 end
