@@ -1,6 +1,7 @@
 require 'webrick'
 require_relative '../lib/phase6/controller_base'
 require_relative '../lib/phase6/router'
+require 'byebug'
 
 
 # http://www.ruby-doc.org/stdlib-2.0/libdoc/webrick/rdoc/WEBrick.html
@@ -38,7 +39,10 @@ end
 router = Phase6::Router.new
 router.draw do
   get Regexp.new("^/cats$"), Cats2Controller, :index
-  get Regexp.new("^/cats/(?<cat_id>\\d+)/statuses$"), StatusesController, :index
+  # get Regexp.new("^/cats/(?<cat_id>\\d+)/statuses$"), StatusesController, :index
+  resources "cats" do
+    get "/statuses$", StatusesController, :index
+  end
 end
 
 server = WEBrick::HTTPServer.new(Port: 3000)

@@ -41,6 +41,10 @@ module Phase6
 
     # simply adds a new route to the list of routes
     def add_route(pattern, method, controller_class, action_name)
+      if @nested_path
+        puts "#{@nested_path}#{pattern}"
+      end
+      pattern = Regexp.new("#{@nested_path}#{pattern}") if @nested_path
       @routes << Route.new(pattern, method, controller_class, action_name)
     end
 
@@ -48,6 +52,13 @@ module Phase6
     # for syntactic sugar :)
     def draw(&proc)
       instance_eval(&proc)
+      puts routes.map(&:pattern)
+    end
+
+    def resources(resource_name)
+      @nested_path = "^/#{resource_name}/(?<#{resource_name.singularize}_id>\\d+)"
+      yield
+      @nested_path = nil
     end
 
     # make each of these methods that
