@@ -10,6 +10,7 @@ module Phase6
           raise "Invalid authenticity token"
         end
       end
+      
       send(name)
     end
   end
